@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -8,6 +9,15 @@ import { generateRoomCode, assignRoles, generateTurnOrder, selectWordForGame } f
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Neon Whisper Multiplayer Server is running!',
+    timestamp: new Date().toISOString()
+  });
+});
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -68,7 +78,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    if (room.gameState && room.gameState.phase !== 'setup') {
+    if (room.gameState !== null) {
       socket.emit('error', { message: 'Game already in progress' });
       return;
     }
@@ -321,7 +331,7 @@ io.on('connection', (socket) => {
         io.to(code).emit('room-updated', { players: room.players });
 
         // If game was in progress and players left, end game
-        if (room.gameState && room.gameState.phase !== 'setup' && room.players.length < 3) {
+        if (room.gameState !== null && room.players.length < 3) {
           room.gameState = null;
           io.to(code).emit('game-ended', { message: 'Not enough players' });
         }
