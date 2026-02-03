@@ -81,3 +81,4 @@ Make sure to set the `CLIENT_URL` environment variable to your frontend URL.
 - Socket.io (real-time multiplayer)
 - Tailwind CSS
 - Three.js (3D background)
+# neon-whisper
