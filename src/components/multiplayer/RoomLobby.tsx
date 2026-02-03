@@ -6,10 +6,10 @@ import { Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
 interface RoomLobbyProps {
-  onStartGame: () => void;
+  onStartGame?: () => void;
 }
 
-export function RoomLobby({ onStartGame }: RoomLobbyProps) {
+export function RoomLobby({ onStartGame: _onStartGame }: RoomLobbyProps) {
   const {
     roomCode,
     players,

@@ -100,7 +100,7 @@ export const useMultiplayerStore = create<MultiplayerStore>()(
         set((state) => {
           state.players = players;
           // Update isHost status
-          const player = players.find((p) => p.id === state.playerId);
+          const player = players.find((p: MultiplayerPlayer) => p.id === state.playerId);
           if (player) {
             state.isHost = player.isHost;
           }
